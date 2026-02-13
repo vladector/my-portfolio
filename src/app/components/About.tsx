@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
-import { Code, Palette, GraduationCap, PenTool, Layers, User } from 'lucide-react';
-import { meBase64 } from '../../assets/me-image';
+import { Code, Palette, GraduationCap, PenTool, Layers } from 'lucide-react';
+// Импортируем твое фото из новой папки assets
+import meImage from '../../assets/me/me.png';
 
 export function About({ theme }: { theme: any }) {
   // --- НАСТРОЙКИ ПРОЗРАЧНОСТИ ---
@@ -81,7 +82,7 @@ export function About({ theme }: { theme: any }) {
             </div>
             <div className="hidden md:block absolute bottom-0 right-0 w-[42%] h-[95%] z-10 pointer-events-none">
                 <img 
-                  src={meBase64} 
+                  src={meImage} 
                   alt="Vlad Kataev" 
                   className="w-full h-full object-contain object-bottom grayscale opacity-100 transition-all duration-700"
                   style={{
