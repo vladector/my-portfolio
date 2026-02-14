@@ -30,7 +30,7 @@ export function About({ theme }: { theme: any }) {
         animate={{
           background: `linear-gradient(to bottom, ${theme.bg} 0%, ${theme.bg} 35%, #ffffff 100%)`
         }}
-        transition={{ duration: 2.5, ease: "linear" }}
+        transition={{ duration: 1, ease: "easeInOut" }}
       />
 
       <div className="relative z-10 max-w-6xl mx-auto">

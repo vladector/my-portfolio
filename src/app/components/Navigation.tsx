@@ -23,6 +23,7 @@ export function Navigation() {
   };
 
   const navLinks = [
+    { name: 'Обо мне', id: 'about' }, // Добавлена ссылка "Обо мне"
     { name: 'UI/UX', id: 'uiux' },
     { name: 'Брендинг', id: 'branding' },
     { name: 'Контакты', id: 'contact' }
@@ -47,7 +48,7 @@ export function Navigation() {
               exit={{ y: 20, opacity: 0 }}
               transition={{ duration: 0.3 }}
               onClick={() => scrollToSection('hero')}
-              className="cursor-pointer hover:opacity-70 transition-opacity"
+              className="cursor-pointer hover:opacity-70 transition-opacity text-black"
             >
               Влад Катаев
             </motion.div>
@@ -62,7 +63,7 @@ export function Navigation() {
             <button
               onClick={() => scrollToSection(link.id)}
               className={`text-xs md:text-sm font-bold uppercase tracking-widest transition-colors hover:text-blue-600 ${
-                isScrolled ? 'text-gray-900' : 'text-gray-500' // В начале серый, чтобы не отвлекать от заголовка
+                isScrolled ? 'text-gray-900' : 'text-gray-500'
               }`}
             >
               {link.name}

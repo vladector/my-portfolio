@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ArrowDown } from 'lucide-react';
+// Убрали ArrowDown из импортов, так как он больше не используется
 
 // --- КОМПОНЕНТ ФОНА (SVG + Анимации) ---
 function AbstractBackground({ theme }: { theme: any }) {
@@ -10,16 +10,14 @@ function AbstractBackground({ theme }: { theme: any }) {
     <motion.div 
       className="absolute inset-0 overflow-hidden"
       animate={{ backgroundColor: theme.bg }}
-      transition={{ duration: 2.5, ease: "easeInOut" }}
+      transition={{ duration: 1, ease: "easeInOut" }}
     >
       <svg viewBox="0 0 1000 600" className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
         <defs>
-          {/* 1. СТАРЫЙ ФИЛЬТР (Для размытых тем) */}
           <motion.filter id="dynamicBlur" x="-50%" y="-50%" width="200%" height="200%">
             <motion.feGaussianBlur in="SourceGraphic" animate={{ stdDeviation: theme.blur }} transition={{ duration: 2.5 }} />
           </motion.filter>
 
-          {/* 2. НОВЫЙ ФИЛЬТР "CLAY 3D" (Объем, Свет, Тень) */}
           <filter id="clay-3d" x="-50%" y="-50%" width="200%" height="200%">
             <feDropShadow dx="12" dy="12" stdDeviation="8" floodColor="#000000" floodOpacity="0.15" result="dropShadow"/>
             <feSpecularLighting in="dropShadow" surfaceScale="5" specularConstant="0.8" specularExponent="20" lightingColor="#ffffff" result="specularLight">
@@ -34,7 +32,6 @@ function AbstractBackground({ theme }: { theme: any }) {
           </filter>
         </defs>
 
-        {/* ГРУППА ФИГУР */}
         <motion.g 
             filter={isClayTheme ? "url(#clay-3d)" : "url(#dynamicBlur)"}
             animate={{ style: { mixBlendMode: theme.mixBlend as any } }} 
@@ -86,6 +83,7 @@ const GlitchTitle = ({ text, color, subColor }: { text: string, color: string, s
 
 // --- ГЛАВНЫЙ ЭКСПОРТ HERO ---
 export function Hero({ theme }: { theme: any }) {
+  // Функцию scrollToUIUX оставляем, она может пригодиться для других кнопок
   const scrollToUIUX = () => {
     const element = document.getElementById('uiux');
     if (element) { element.scrollIntoView({ behavior: 'smooth' }); }
@@ -100,14 +98,12 @@ export function Hero({ theme }: { theme: any }) {
       <AbstractBackground theme={currentTheme} />
 
       {/* 2. ИСПРАВЛЕНИЕ: ГРАДИЕНТНАЯ ЗАПЛАТКА ВНИЗУ */}
-      {/* Плавный переход от прозрачного к СПЛОШНОМУ цвету темы. */}
-      {/* Это перекрывает обрезанный блюр. */}
       <motion.div 
         className="absolute bottom-0 left-0 right-0 h-64 z-0 pointer-events-none"
         animate={{ 
           background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, ${currentTheme.bg} 100%)` 
         }}
-        transition={{ duration: 2.5 }}
+        transition={{ duration: 1, ease:"easeInOut"}}
       />
 
       {/* 3. Оверлей для текста (Виньетка) */}
@@ -128,9 +124,7 @@ export function Hero({ theme }: { theme: any }) {
           </motion.div>
         </motion.div>
         
-        <motion.button onClick={scrollToUIUX} className="absolute bottom-12 left-1/2 -translate-x-1/2 cursor-pointer p-4 rounded-full transition-colors backdrop-blur-sm group z-50" animate={{ backgroundColor: currentTheme.isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)' }}>
-          <ArrowDown className="w-6 h-6 group-hover:translate-y-1 transition-transform" style={{ color: currentTheme.isDark ? '#ffffff' : '#1f2937' }} />
-        </motion.button>
+        {/* Кнопка-стрелка удалена */}
       </div>
     </section>
   );

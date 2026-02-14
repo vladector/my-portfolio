@@ -5,7 +5,8 @@ import { UIUXSection } from './components/UIUXSection';
 import { BrandingSection } from './components/BrandingSection';
 import { ContactSection } from './components/ContactSection';
 import { Navigation } from './components/Navigation';
-import { THEMES } from '../data/themes'; // Импортируем массив
+import { THEMES } from '../data/themes';
+import { GlobalBackground } from './components/GlobalBackground'; // Импортируем массив
 
 export default function App() {
   const [themeIndex, setThemeIndex] = useState(0);
