@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// --- 1. ИМПОРТЫ АССЕТОВ ---
+// --- ИМПОРТЫ АССЕТОВ ---
 import fbOverview from '../../assets/findbook/1.png'; 
-import fbHome from '../../assets/findbook/2.jpg';     
+import fbHome from '../../assets/findbook/2.jpg'; 
 import fbProduct from '../../assets/findbook/3.jpg'; 
-import fbMenu from '../../assets/findbook/4.jpg';     
+import fbMenu from '../../assets/findbook/4.jpg'; 
 
 import runClean from '../../assets/runtracker/1.png'; 
 import runContext from '../../assets/runtracker/2.jpg'; 
@@ -18,7 +18,10 @@ import weather1 from '../../assets/weather/1.png';
 import weather2 from '../../assets/weather/2.jpg';
 
 import burboroOverview from '../../assets/burboro/1.png'; 
-import burboroHero from '../../assets/burboro/2.jpg';     
+import burboroHero from '../../assets/burboro/2.jpg'; 
+
+// --- ЕДИНЫЙ СТИЛЬ ТЕГА ---
+const TAG_STYLE = "text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-white shadow-sm";
 
 const projects = [
   {
@@ -40,7 +43,6 @@ const projects = [
     description: 'Приложение для бегунов. Сложные метрики превращены в понятные инфографические виджеты.',
     previewImage: runContext,
     gallery: [runClean],
-    // Обновленные теги: добавили Mobile UI и Data Viz
     tags: ['Utility Tool', 'Mobile UI', 'Data Viz'],
     gridClass: 'lg:col-span-1 lg:row-span-1',
     bgClass: 'bg-[#ffa809]', 
@@ -52,9 +54,7 @@ const projects = [
     shortDescription: 'Погодная утилита.',
     description: 'Интерфейс мимикрирует под состояние окружающей среды.',
     previewImage: weather1,
-    // Обновленная галерея: убрали 1.png, оставили только 2.jpg
     gallery: [weather2],
-    // Обновленные теги: добавили Mobile UI
     tags: ['Utility Tool', 'Data Viz', 'Mobile UI'],
     gridClass: 'lg:col-span-1 lg:row-span-2',
     bgClass: 'bg-gradient-to-br from-[#fe94a8] to-[#1c4fc5]', 
@@ -122,8 +122,8 @@ export function UIUXSection() {
 
   useEffect(() => {
     if (!selectedId) {
-        document.body.classList.remove('modal-open');
-        return;
+      document.body.classList.remove('modal-open');
+      return;
     }
     document.body.classList.add('modal-open');
 
@@ -157,31 +157,51 @@ export function UIUXSection() {
           <div className="lg:col-span-4 lg:sticky lg:top-32">
             <h2 className="text-5xl md:text-7xl font-bold mb-6 text-gray-900 leading-tight tracking-tighter">UI/UX Проекты</h2>
             <p className="text-xl text-gray-500 max-w-md leading-relaxed">
-                Коммерческие интерфейсы и концепты, сделанные с душой.
+              Коммерческие интерфейсы и концепты, сделанные с душой.
             </p>
           </div>
 
           <div className="lg:col-span-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 auto-rows-[320px] gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 auto-rows-[360px] gap-8">
               {projects.map((p) => (
                 <motion.div
                   key={p.id}
                   layoutId={`card-${p.id}`}
                   onClick={() => { setSelectedId(p.id); setActiveSlide(0); }}
+                  // --- НОВЫЕ АНИМАЦИИ HOVER ---
+                  whileHover={{ y: -8 }} // Приподнимаем карточку
+                  transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }} // Плавная физика
                   className={`group cursor-pointer rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl flex flex-col bg-gray-50 border border-gray-100 relative ${p.gridClass}`}
                 >
-                  <motion.div layoutId={`info-bg-${p.id}`} className={`p-6 relative z-10 ${p.bgClass}`}>
-                    <motion.div layoutId={`tags-${p.id}`} className="flex flex-wrap gap-2 mb-3">
-                       {p.tags.map(t => <span key={t} className="text-[9px] uppercase font-black tracking-widest bg-white/20 backdrop-blur-md px-2 py-0.5 rounded text-white border border-white/10">{t}</span>)}
+                  <motion.div layoutId={`info-bg-${p.id}`} className={`p-8 relative z-10 ${p.bgClass}`}>
+                    
+                    <motion.div layoutId={`tags-${p.id}`} className="flex flex-wrap gap-2 mb-4">
+                      {p.tags.map(t => (
+                        <span key={t} className={TAG_STYLE}>
+                          {t}
+                        </span>
+                      ))}
                     </motion.div>
-                    <motion.h3 layoutId={`title-${p.id}`} className="text-xl font-bold text-white mb-1 leading-tight">{p.title}</motion.h3>
-                    <motion.p layoutId={`desc-${p.id}`} className="text-white/70 text-[10px] line-clamp-1">{p.shortDescription}</motion.p>
+
+                    <motion.h3 layoutId={`title-${p.id}`} className="text-2xl font-black text-white mb-2 leading-tight">
+                      {p.title}
+                    </motion.h3>
+
+                    <motion.p layoutId={`desc-${p.id}`} className="text-white/80 text-sm font-medium leading-snug line-clamp-2">
+                      {p.shortDescription}
+                    </motion.p>
+
                   </motion.div>
                   
                   <div className="relative flex-grow overflow-hidden bg-white">
-                    <motion.img layoutId={`img-${p.id}`} src={p.previewImage} className={`w-full h-full object-cover ${p.imgPosition}`} />
-                    <div className="absolute top-4 right-4 w-10 h-10 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ArrowUpRight className="text-white w-5 h-5" />
+                    <motion.img 
+                      layoutId={`img-${p.id}`} 
+                      src={p.previewImage} 
+                      // --- ДОБАВЛЕН ЗУМ КАРТИНКИ ---
+                      className={`w-full h-full object-cover ${p.imgPosition} transition-transform duration-700 group-hover:scale-105`} 
+                    />
+                    <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ArrowUpRight className="text-white w-6 h-6" />
                     </div>
                   </div>
                 </motion.div>
@@ -217,26 +237,26 @@ export function UIUXSection() {
                 </div>
 
                 <motion.div layoutId={`info-bg-${selectedId}`} className={`absolute bottom-12 left-6 right-6 md:left-12 md:right-auto md:w-[450px] p-10 rounded-[48px] shadow-2xl z-[120] border border-white/20 backdrop-blur-3xl bg-black/30`}>
-                   <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-                     <motion.div layoutId={`tags-${selectedId}`} className="flex gap-2 mb-4 flex-wrap">
-                        {currentProject.tags.map(t => <span key={t} className="text-[10px] font-black uppercase tracking-widest text-white/60 border border-white/10 px-3 py-1 rounded-full">{t}</span>)}
-                     </motion.div>
-                     <motion.h3 layoutId={`title-${selectedId}`} className="text-4xl font-black text-white mb-4 leading-tight drop-shadow-lg">{currentProject.title}</motion.h3>
-                     <motion.p layoutId={`desc-${selectedId}`} className="text-white/90 text-sm md:text-base mb-6 leading-relaxed drop-shadow-md">{currentProject.description}</motion.p>
-                     
-                     <div className="flex gap-2">
-                       {currentProject.gallery.length > 1 && currentProject.gallery.map((_, i) => (
-                          <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeSlide ? 'bg-white w-10 shadow-[0_0_10px_white]' : 'bg-white/20 w-2'}`} />
-                       ))}
-                     </div>
-                   </motion.div>
+                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                    <motion.div layoutId={`tags-${selectedId}`} className="flex gap-2 mb-4 flex-wrap">
+                      {currentProject.tags.map(t => <span key={t} className={TAG_STYLE}>{t}</span>)}
+                    </motion.div>
+                    <motion.h3 layoutId={`title-${selectedId}`} className="text-4xl font-black text-white mb-4 leading-tight drop-shadow-lg">{currentProject.title}</motion.h3>
+                    <motion.p layoutId={`desc-${selectedId}`} className="text-white/90 text-base mb-6 leading-relaxed drop-shadow-md">{currentProject.description}</motion.p>
+                    
+                    <div className="flex gap-2">
+                      {currentProject.gallery.length > 1 && currentProject.gallery.map((_, i) => (
+                        <div key={i} className={`h-1.5 rounded-full transition-all duration-300 ${i === activeSlide ? 'bg-white w-10 shadow-[0_0_10px_white]' : 'bg-white/20 w-2'}`} />
+                      ))}
+                    </div>
+                  </motion.div>
                 </motion.div>
 
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="absolute top-10 right-10 flex gap-4 z-[140]">
                   {currentProject.gallery.length > 1 && (
                     <div className="hidden md:flex gap-3">
-                       <button onClick={(e) => { e.stopPropagation(); goToSlide(activeSlide - 1); }} className="p-4 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-full text-white border border-white/10"><ChevronLeft size={28} /></button>
-                       <button onClick={(e) => { e.stopPropagation(); goToSlide(activeSlide + 1); }} className="p-4 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-full text-white border border-white/10"><ChevronRight size={28} /></button>
+                      <button onClick={(e) => { e.stopPropagation(); goToSlide(activeSlide - 1); }} className="p-4 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-full text-white border border-white/10"><ChevronLeft size={28} /></button>
+                      <button onClick={(e) => { e.stopPropagation(); goToSlide(activeSlide + 1); }} className="p-4 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-full text-white border border-white/10"><ChevronRight size={28} /></button>
                     </div>
                   )}
                   <button onClick={() => setSelectedId(null)} className="p-4 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-full text-white border border-white/10"><X size={28} /></button>
