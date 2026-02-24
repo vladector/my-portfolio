@@ -1,37 +1,36 @@
-import { motion } from 'framer-motion'; // Привел к единому стандарту с UI/UX
-import { Code, Palette, GraduationCap, PenTool, Layers } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Code, Palette, GraduationCap, PenTool, Cpu, Globe, Gamepad2 } from 'lucide-react';
 import meImage from '../../assets/me/me.png';
 
 export function About({ theme }: { theme: any }) {
-  // --- НАСТРОЙКИ КАРТОЧЕК ---
-  
-  const cardBg = theme.isDark 
+  const isDark = theme.id !== 'clay-light';
+
+  const cardBg = isDark 
     ? 'bg-zinc-900/60 border-white/10 text-white' 
     : 'bg-white/70 border-gray-200 text-black shadow-lg';
 
-  const cardBorder = theme.isDark ? 'border-white/10' : 'border-white/50';
+  const cardBorder = isDark ? 'border-white/10' : 'border-white/50';
+  
+  // Единые цвета для текстов
+  const mainTextColor = isDark ? 'text-zinc-100' : 'text-zinc-900';
+  const secondaryTextColor = isDark ? 'text-zinc-400' : 'text-zinc-600';
 
-  const mainTextColor = theme.isDark ? 'text-gray-100' : 'text-black';
-  const secondaryTextColor = theme.isDark ? 'text-gray-400' : 'text-slate-900 font-bold';
-  
-  // --- ИСПРАВЛЕННЫЕ СТИЛИ ТЕГОВ (ПУЗЫРЕЙ) ---
-  // 1. Убрал border-2, теперь везде border (1px), чтобы не прыгало.
-  // 2. Типографика (text-xs uppercase tracking-wider) теперь как в UI/UX секции.
-  const tagBaseStyle = "px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider transition-all border backdrop-blur-md shadow-sm";
-  
-  const tagThemeStyle = theme.isDark 
-    ? 'bg-white/10 text-white border-white/20' // Темная тема
-    : 'bg-white/80 text-black border-slate-300'; // Светлая тема (border теперь такой же толщины)
+  // Единые стили для шрифтов
+  const bodyText = `text-lg font-medium leading-relaxed ${mainTextColor}`;
+  const smallText = `text-base font-medium leading-relaxed ${secondaryTextColor}`;
+  const cardTitle = "text-2xl font-black flex items-center gap-3 mb-6";
+
+  const tagBaseStyle = "px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest transition-all border backdrop-blur-md shadow-sm";
+  const tagThemeStyle = isDark 
+    ? 'bg-white/10 text-white border-white/20' 
+    : 'bg-white/80 text-black border-zinc-300'; 
 
   return (
     <section id="about" className="relative py-24 px-6 overflow-hidden bg-transparent">
       
-      {/* ГРАДИЕНТ ФОНА */}
       <motion.div 
         className="absolute inset-0 z-0 pointer-events-none"
-        animate={{
-          background: `linear-gradient(to bottom, ${theme.bg} 0%, ${theme.bg} 35%, #ffffff 100%)`
-        }}
+        animate={{ backgroundColor: theme.bg }}
         transition={{ duration: 1, ease: "easeInOut" }}
       />
 
@@ -46,15 +45,15 @@ export function About({ theme }: { theme: any }) {
           className="mb-16 md:mb-24 text-center md:text-left"
         >
           <motion.h2 
-            className="text-sm font-black uppercase tracking-widest mb-4"
-            animate={{ color: theme.isDark ? theme.subText : '#64748b' }}
+            className="text-sm font-black uppercase tracking-[0.3em] mb-4"
+            animate={{ color: isDark ? theme.subText : '#64748b' }}
           >
             Обо мне
           </motion.h2>
           
           <motion.p 
-            className="text-3xl md:text-6xl font-black leading-tight"
-            animate={{ color: theme.isDark ? '#ffffff' : '#000000' }}
+            className="text-4xl md:text-6xl font-black leading-tight tracking-tighter"
+            animate={{ color: isDark ? '#ffffff' : '#000000' }}
           >
             Визуальный опыт <br className="hidden md:block"/>
             с инженерной точностью.
@@ -64,7 +63,7 @@ export function About({ theme }: { theme: any }) {
         {/* BENTO GRID */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[minmax(200px,auto)]">
           
-          {/* 1. КАРТОЧКА С ФОТО */}
+          {/* 1. ХУДОЖЕСТВЕННАЯ БАЗА */}
           <motion.div 
             className={`md:col-span-8 backdrop-blur-2xl border rounded-[40px] p-8 md:p-12 relative overflow-hidden transition-all duration-1000 ${cardBg} ${cardBorder}`}
             initial={{ opacity: 0, y: 20 }}
@@ -72,30 +71,30 @@ export function About({ theme }: { theme: any }) {
             viewport={{ once: true }}
           >
             <div className="relative z-20 max-w-[100%] md:max-w-[65%]">
-              <h3 className="text-3xl font-black mb-6 flex items-center gap-3">
-                <Palette className="w-8 h-8 text-blue-600" />
+              <h3 className={cardTitle}>
+                <Palette className="w-8 h-8 text-blue-600 shrink-0" />
                 Художественная база
               </h3>
-              <p className={`text-xl leading-relaxed font-medium ${mainTextColor}`}>
-                Я рисую с детства. За плечами академическая художественная школа и диплом ЧГИК (2025) по дизайну. 
+              <p className={bodyText}>
+                Я рисую с детства. За плечами академическая художественная школа и диплом по дизайну. 
                 <br/><br/>
-                Мой путь в UI начался еще в середине 2010-х. Я вырос из классической композиции и понимания формы.
+                Мой путь в UI начался еще в середине 2010-х. Я вырос из классической композиции и понимания формы, что позволяет мне создавать не просто красивые, но и структурно выверенные интерфейсы.
               </p>
             </div>
             <div className="hidden md:block absolute bottom-0 right-0 w-[42%] h-[95%] z-10 pointer-events-none">
               <img 
                 src={meImage} 
-                alt="Vlad Kataev" 
+                alt="Evgeny" 
                 className="w-full h-full object-contain object-bottom grayscale opacity-100 transition-all duration-700"
                 style={{
-                  maskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)',
-                  WebkitMaskImage: 'linear-gradient(to bottom, black 85%, transparent 100%)'
+                  maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
+                  WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)'
                 }}
               />
             </div>
           </motion.div>
 
-          {/* 2. ПРОСТРАНСТВЕННОЕ МЫШЛЕНИЕ */}
+          {/* 2. ИНЖЕНЕРНЫЙ БЭКГРАУНД */}
           <motion.div 
             className="md:col-span-4 bg-zinc-950/90 backdrop-blur-xl text-white rounded-[40px] p-8 md:p-12 flex flex-col justify-between relative overflow-hidden shadow-2xl"
           >
@@ -104,87 +103,91 @@ export function About({ theme }: { theme: any }) {
               animate={{ background: `radial-gradient(circle at top right, ${theme.colors[0]}, transparent 70%)` }}
             />
             <div className="relative z-10">
-              <Layers className="w-10 h-10 mb-6 text-blue-400" />
-              <h3 className="text-2xl font-black mb-4">Пространственное мышление</h3>
-              <p className="text-zinc-400 text-base leading-relaxed">
-                Владение Revit и 3ds Max позволяет мне строить интерфейсы как глубокие, архитектурно выверенные структуры.
+              <Cpu className="w-10 h-10 mb-6 text-blue-400" />
+              <h3 className="text-2xl font-black mb-4">Инженерный фундамент</h3>
+              <p className="text-zinc-300 text-lg font-medium leading-relaxed">
+                Более 8 лет опыта работы со сложным оборудованием и КИПиА. Я понимаю технические системы изнутри, поэтому проектирую логичные UX-сценарии.
               </p>
             </div>
           </motion.div>
 
           {/* 3. ИНСТРУМЕНТАРИЙ */}
-         <motion.div 
-            className={`md:col-span-7 backdrop-blur-2xl rounded-[40px] p-8 md:p-12 border transition-all duration-1000 ${cardBg} ${cardBorder}`}
-          >
-            <h4 className="flex items-center gap-3 font-black mb-10 text-2xl">
-              <Code className="w-8 h-8 text-indigo-600" /> Инструментарий
+          <motion.div className={`md:col-span-6 lg:col-span-4 backdrop-blur-2xl rounded-[40px] p-8 md:p-10 border transition-all duration-1000 ${cardBg} ${cardBorder}`}>
+            <h4 className={cardTitle}>
+              <Code className="w-8 h-8 text-indigo-600 shrink-0" /> Инструменты
             </h4>
-            
-            <div className="space-y-10">
-              {/* ГРУППА 1: Дизайн и Код */}
+            <div className="space-y-6">
               <div>
-                <span className={`text-xs font-black uppercase tracking-[0.2em] mb-4 block ${secondaryTextColor}`}>
-                  Interface & Editorial
-                </span>
-                <div className="flex flex-wrap gap-3">
-                  {['Figma', 'Illustrator', 'InDesign', 'React', 'Tailwind'].map((tag) => (
-                    <span key={tag} className={`${tagBaseStyle} ${tagThemeStyle}`}>
-                      {tag}
-                    </span>
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 block opacity-50">Interface & Editorial</span>
+                <div className="flex flex-wrap gap-2">
+                  {['Figma', 'Photoshop', 'Illustrator', 'React', 'Tailwind'].map((tag) => (
+                    <span key={tag} className={`${tagBaseStyle} ${tagThemeStyle}`}>{tag}</span>
                   ))}
                 </div>
               </div>
-
-              {/* ГРУППА 2: 3D и Архитектура */}
               <div>
-                <span className={`text-xs font-black uppercase tracking-[0.2em] mb-4 block ${secondaryTextColor}`}>
-                  3D & Spatial
-                </span>
-                <div className="flex flex-wrap gap-3">
+                <span className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 block opacity-50">3D & Spatial</span>
+                <div className="flex flex-wrap gap-2">
                   {['Blender', '3ds Max', 'Revit', 'ArchiCAD'].map((tag) => (
-                    <span key={tag} className={`${tagBaseStyle} ${tagThemeStyle}`}>
-                      {tag}
-                    </span>
+                    <span key={tag} className={`${tagBaseStyle} ${tagThemeStyle}`}>{tag}</span>
                   ))}
-                </div>
-              </div>
-
-              {/* ГРУППА 3: Рисование и... специфическое */}
-              <div>
-                <span className={`text-xs font-black uppercase tracking-[0.2em] mb-4 block ${secondaryTextColor}`}>
-                  Digital Art & Legacy
-                </span>
-                <div className="flex flex-wrap gap-3">
-                  {['Fresco', 'Photoshop', 'MS Paint'].map((tag) => (
-                    <span key={tag} className={`${tagBaseStyle} ${tagThemeStyle}`}>
-                      {tag}
-                    </span>
-                  ))}
-                  
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* 4. ОБРАЗОВАНИЕ И ЦЕЛЬ */}
-          <motion.div 
-            className={`md:col-span-5 backdrop-blur-2xl rounded-[40px] p-8 md:p-12 border transition-all duration-1000 ${cardBg} ${cardBorder}`}
-          >
-            <div className="mb-12">
-              <h4 className="flex items-center gap-3 font-black mb-4 text-2xl">
-                <GraduationCap className="w-8 h-8 text-orange-600" /> Образование
-              </h4>
-              <p className="text-xl font-black leading-tight">ЧГИК, Дизайн (2025)</p>
-              <p className={`text-sm uppercase tracking-widest mt-2 ${secondaryTextColor}`}>Профильное высшее</p>
-            </div>
+          {/* 4. ХАРДВАРНЫЙ DIY */}
+          <motion.div className={`md:col-span-6 lg:col-span-4 backdrop-blur-2xl rounded-[40px] p-8 md:p-10 border transition-all duration-1000 ${cardBg} ${cardBorder} flex flex-col`}>
+            <h4 className={cardTitle}>
+              <Gamepad2 className="w-8 h-8 text-purple-500 shrink-0" /> Железо & DIY
+            </h4>
+            <p className={bodyText + " mb-6"}>
+              Адаптирую старое железо и софт к современным реалиям, давая вещам вторую жизнь.
+            </p>
+            <ul className="space-y-3 flex-grow">
+              <li className={`flex items-start gap-3 ${smallText}`}>
+                <span className="text-purple-500 font-black">▹</span> 
+                <span>Эмуляция и запуск тяжелых портов на смартфонах.</span>
+              </li>
+              <li className={`flex items-start gap-3 ${smallText}`}>
+                <span className="text-purple-500 font-black">▹</span> 
+                <span>Аппаратные моды: впайка HDMI в Dreamcast и PS2.</span>
+              </li>
+            </ul>
+          </motion.div>
 
-            <div className="pt-8 border-t border-gray-200/50">
-              <h4 className="flex items-center gap-3 font-black mb-4 text-2xl">
-                <PenTool className="w-8 h-8 text-green-600" /> Цель
+          {/* 5. ОБРАЗОВАНИЕ */}
+          <motion.div className={`md:col-span-12 lg:col-span-4 backdrop-blur-2xl rounded-[40px] p-8 md:p-10 border transition-all duration-1000 flex flex-col justify-between ${cardBg} ${cardBorder}`}>
+            <div>
+              <h4 className={cardTitle}>
+                <GraduationCap className="w-8 h-8 text-orange-600 shrink-0" /> Образование
               </h4>
-              <p className={`text-lg font-bold leading-relaxed ${mainTextColor}`}>
-                Ищу команду, где смогу применить свой широкий профиль для создания чистых, работающих продуктов.
-              </p>
+              <div className="mb-6">
+                <p className="text-xl font-black leading-tight">ЧГИК (2025)</p>
+                <p className={smallText + " text-xs uppercase tracking-widest mt-1"}>Дизайн (Профильное высшее)</p>
+              </div>
+              <div className="mb-6">
+                <p className="text-xl font-black leading-tight">
+                  <span className="line-through decoration-red-500 decoration-[3px] opacity-70">ПНИПУ</span> / СГХТ (2018)
+                </p>
+                <p className={smallText + " text-xs uppercase tracking-widest mt-1"}>Автоматизация процессов</p>
+              </div>
+            </div>
+            <div className="pt-6 border-t border-zinc-500/20">
+              <div className="flex justify-between items-center">
+                <div>
+                  <h4 className="font-black text-sm uppercase tracking-widest flex items-center gap-2 mb-1">
+                    <Globe className="w-4 h-4 text-sky-500" /> English
+                  </h4>
+                  <p className="text-base font-bold">Very big</p>
+                </div>
+                <div className="text-right">
+                  <h4 className="font-black text-sm uppercase tracking-widest flex items-center gap-2 mb-1 justify-end">
+                    <PenTool className="w-4 h-4 text-green-600" /> Цель
+                  </h4>
+                  <p className="text-base font-bold"> Art-direction</p>
+                </div>
+              </div>
             </div>
           </motion.div>
 

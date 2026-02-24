@@ -3,22 +3,37 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ArrowUpRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // --- ИМПОРТЫ АССЕТОВ ---
+
+// FindBook (Оставляем как было)
 import fbOverview from '../../assets/findbook/1.png'; 
 import fbHome from '../../assets/findbook/2.jpg'; 
 import fbProduct from '../../assets/findbook/3.jpg'; 
 import fbMenu from '../../assets/findbook/4.jpg'; 
 
-import runClean from '../../assets/runtracker/1.png'; 
+// Runtracker (Превью + Новая галерея 1x)
 import runContext from '../../assets/runtracker/2.jpg'; 
+import runP1 from '../../assets/runtracker/1x/Page_1.jpg';
+import runP2 from '../../assets/runtracker/1x/Page_2.jpg';
+import runP3 from '../../assets/runtracker/1x/Page_3.jpg';
+import runP4 from '../../assets/runtracker/1x/Page_4.jpg';
 
+// Taxi (Превью + Новая галерея 1x)
 import taxi1 from '../../assets/taxi/1.png';
-import taxi2 from '../../assets/taxi/2.jpg';
+import taxiP1 from '../../assets/taxi/1x/Page_1.jpg';
+import taxiP2 from '../../assets/taxi/1x/Page_2.jpg';
+import taxiP3 from '../../assets/taxi/1x/Page_3.jpg';
+import taxiP4 from '../../assets/taxi/1x/Page_4.jpg';
+import taxiP5 from '../../assets/taxi/1x/Page_5.jpg';
 
+// Weather (Превью + Новая галерея 1x)
 import weather1 from '../../assets/weather/1.png';
-import weather2 from '../../assets/weather/2.jpg';
+import weatherP1 from '../../assets/weather/1x/Page_1.jpg';
+import weatherP2 from '../../assets/weather/1x/Page_2.jpg';
 
+// Burboro (Превью + Новая галерея 1x)
 import burboroOverview from '../../assets/burboro/1.png'; 
-import burboroHero from '../../assets/burboro/2.jpg'; 
+import burP1 from '../../assets/burboro/1x/Page_1.jpg';
+import burP2 from '../../assets/burboro/1x/Page_2.jpg';
 
 // --- ЕДИНЫЙ СТИЛЬ ТЕГА ---
 const TAG_STYLE = "text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full border border-white/20 bg-white/10 backdrop-blur-md text-white shadow-sm";
@@ -42,7 +57,7 @@ const projects = [
     shortDescription: 'Фитнес-трекер с данными.',
     description: 'Приложение для бегунов. Сложные метрики превращены в понятные инфографические виджеты.',
     previewImage: runContext,
-    gallery: [runClean],
+    gallery: [runP1, runP2, runP3, runP4],
     tags: ['Utility Tool', 'Mobile UI', 'Data Viz'],
     gridClass: 'lg:col-span-1 lg:row-span-1',
     bgClass: 'bg-[#ffa809]', 
@@ -54,7 +69,7 @@ const projects = [
     shortDescription: 'Погодная утилита.',
     description: 'Интерфейс мимикрирует под состояние окружающей среды.',
     previewImage: weather1,
-    gallery: [weather2],
+    gallery: [weatherP1, weatherP2],
     tags: ['Utility Tool', 'Data Viz', 'Mobile UI'],
     gridClass: 'lg:col-span-1 lg:row-span-2',
     bgClass: 'bg-gradient-to-br from-[#fe94a8] to-[#1c4fc5]', 
@@ -66,7 +81,7 @@ const projects = [
     shortDescription: 'Сервис мобильности.',
     description: 'Редизайн процесса вызова такси. Сокращение кликов до минимума.',
     previewImage: taxi1,
-    gallery: [taxi2],
+    gallery: [taxiP1, taxiP2, taxiP3, taxiP4, taxiP5],
     tags: ['Mobile UI'],
     gridClass: 'lg:col-span-2 lg:row-span-1',
     bgClass: 'bg-blue-600', 
@@ -78,7 +93,7 @@ const projects = [
     shortDescription: 'Магазин скульптур.',
     description: 'E-commerce платформа для скульптора Burboro. Передача тактильности материала.',
     previewImage: burboroOverview,
-    gallery: [burboroHero],
+    gallery: [burP1, burP2],
     tags: ['E-Commerce'],
     gridClass: 'lg:col-span-3 lg:row-span-1',
     bgClass: 'bg-stone-800', 
@@ -168,9 +183,8 @@ export function UIUXSection() {
                   key={p.id}
                   layoutId={`card-${p.id}`}
                   onClick={() => { setSelectedId(p.id); setActiveSlide(0); }}
-                  // --- НОВЫЕ АНИМАЦИИ HOVER ---
-                  whileHover={{ y: -8 }} // Приподнимаем карточку
-                  transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }} // Плавная физика
+                  whileHover={{ y: -8 }} 
+                  transition={{ duration: 0.5, ease: [0.25, 1, 0.5, 1] }} 
                   className={`group cursor-pointer rounded-[40px] overflow-hidden shadow-sm hover:shadow-2xl flex flex-col bg-gray-50 border border-gray-100 relative ${p.gridClass}`}
                 >
                   <motion.div layoutId={`info-bg-${p.id}`} className={`p-8 relative z-10 ${p.bgClass}`}>
@@ -197,7 +211,6 @@ export function UIUXSection() {
                     <motion.img 
                       layoutId={`img-${p.id}`} 
                       src={p.previewImage} 
-                      // --- ДОБАВЛЕН ЗУМ КАРТИНКИ ---
                       className={`w-full h-full object-cover ${p.imgPosition} transition-transform duration-700 group-hover:scale-105`} 
                     />
                     <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
@@ -212,23 +225,38 @@ export function UIUXSection() {
 
         <AnimatePresence>
           {selectedId && currentProject && (
-            <div className="fixed inset-0 z-[100] flex items-center justify-center p-0 md:p-12">
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelectedId(null)} className="absolute inset-0 bg-black/40 backdrop-blur-2xl" />
+            <div className="fixed inset-0 z-[200] flex items-center justify-center p-0 md:p-12">
+              <motion.div 
+                initial={{ opacity: 0 }} 
+                animate={{ opacity: 1 }} 
+                exit={{ opacity: 0 }} 
+                onClick={() => setSelectedId(null)} 
+                className="absolute inset-0 bg-black/40 backdrop-blur-2xl" 
+              />
 
               <motion.div 
                 layoutId={`card-${selectedId}`} 
-                className={`relative w-full h-full md:w-[90vw] md:h-[85vh] md:rounded-[56px] overflow-hidden shadow-2xl ${currentProject.bgClass}`}
+                drag="y"
+                dragConstraints={{ top: 0, bottom: 0 }}
+                dragElastic={0.7}
+                onDragEnd={(_, info) => {
+                  if (Math.abs(info.offset.y) > 150) {
+                    setSelectedId(null);
+                  }
+                }}
+                className={`relative w-full h-full md:w-[90vw] md:h-[85vh] md:rounded-[56px] overflow-hidden shadow-2xl z-[210] ${currentProject.bgClass}`}
               >
                 
+                {/* ГАЛЕРЕЯ */}
                 <div ref={scrollRef} className="absolute inset-0 flex overflow-x-auto snap-x snap-mandatory hide-scrollbar scroll-smooth z-0">
                   {currentProject.gallery.map((img, index) => (
-                    <div key={index} className="min-w-full h-full flex items-center justify-center snap-center shrink-0 p-4 md:p-16">
+                    <div key={index} className="min-w-full h-full flex items-start md:items-center justify-center snap-center shrink-0 p-4 pt-20 md:p-16">
                       
-                      <div className="relative w-auto h-auto max-w-full max-h-full rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl border border-white/10 bg-black/10">
+                      <div className="relative w-auto h-auto max-w-full max-h-[50vh] md:max-h-full rounded-[32px] md:rounded-[48px] overflow-hidden shadow-2xl border border-white/10 bg-black/10">
                         <motion.img 
                           layoutId={index === 0 ? `img-${selectedId}` : undefined}
                           src={img} 
-                          className="block max-w-full max-h-[70vh] object-contain" 
+                          className="block max-w-full max-h-[50vh] md:max-h-[70vh] object-contain" 
                         />
                       </div>
 
@@ -236,13 +264,17 @@ export function UIUXSection() {
                   ))}
                 </div>
 
-                <motion.div layoutId={`info-bg-${selectedId}`} className={`absolute bottom-12 left-6 right-6 md:left-12 md:right-auto md:w-[450px] p-10 rounded-[48px] shadow-2xl z-[120] border border-white/20 backdrop-blur-3xl bg-black/30`}>
+                {/* ПЛАШКА ИНФОРМАЦИИ */}
+                <motion.div 
+                  layoutId={`info-bg-${selectedId}`} 
+                  className={`absolute bottom-0 left-0 right-0 md:bottom-12 md:left-12 md:right-auto md:w-[450px] p-8 md:p-10 rounded-t-[40px] md:rounded-[48px] shadow-2xl z-[120] border-t md:border border-white/20 backdrop-blur-3xl bg-black/30`}
+                >
                   <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
                     <motion.div layoutId={`tags-${selectedId}`} className="flex gap-2 mb-4 flex-wrap">
                       {currentProject.tags.map(t => <span key={t} className={TAG_STYLE}>{t}</span>)}
                     </motion.div>
-                    <motion.h3 layoutId={`title-${selectedId}`} className="text-4xl font-black text-white mb-4 leading-tight drop-shadow-lg">{currentProject.title}</motion.h3>
-                    <motion.p layoutId={`desc-${selectedId}`} className="text-white/90 text-base mb-6 leading-relaxed drop-shadow-md">{currentProject.description}</motion.p>
+                    <motion.h3 layoutId={`title-${selectedId}`} className="text-3xl md:text-4xl font-black text-white mb-2 md:mb-4 leading-tight drop-shadow-lg">{currentProject.title}</motion.h3>
+                    <motion.p layoutId={`desc-${selectedId}`} className="text-white/90 text-sm md:text-base mb-6 leading-relaxed drop-shadow-md line-clamp-3 md:line-clamp-none">{currentProject.description}</motion.p>
                     
                     <div className="flex gap-2">
                       {currentProject.gallery.length > 1 && currentProject.gallery.map((_, i) => (
@@ -252,7 +284,8 @@ export function UIUXSection() {
                   </motion.div>
                 </motion.div>
 
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="absolute top-10 right-10 flex gap-4 z-[140]">
+                {/* КНОПКИ УПРАВЛЕНИЯ */}
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }} className="absolute top-6 right-6 md:top-10 md:right-10 flex gap-4 z-[140]">
                   {currentProject.gallery.length > 1 && (
                     <div className="hidden md:flex gap-3">
                       <button onClick={(e) => { e.stopPropagation(); goToSlide(activeSlide - 1); }} className="p-4 bg-white/10 hover:bg-white/20 backdrop-blur-xl rounded-full text-white border border-white/10"><ChevronLeft size={28} /></button>
